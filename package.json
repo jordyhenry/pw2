@@ -1,6 +1,6 @@
 {
   "name": "pw2",
-  "description": "",
+  "description": "Automatically re-scale your images for the right power of two dimensions",
   "version": "1.0.0",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
