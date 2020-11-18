@@ -7,12 +7,12 @@ import {
   getPreviousPOW2Value,
 } from './PW2ValueConverter.js'
 
+type Pw2AllowedInputs = string | Buffer | ArrayBuffer
+
 interface Ipw2 {
   resizeAndGetBuffer(file: string | Buffer, resizingMode: RESIZING_MODES): Promise<Buffer>,
   resizeAndGetBase64(file: string | Buffer, resizingMode: RESIZING_MODES): Promise<string>
 }
-
-type Pw2AllowedInputs = string | Buffer | ArrayBuffer
 
 const createPw2 = (): Ipw2 => {
   async function getFile(file: Pw2AllowedInputs): Promise<Jimp> {
