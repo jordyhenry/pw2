@@ -1,7 +1,7 @@
 
 # pw²
 
-> An easy tool to re-scale your images for the right power of two dimensions.
+> An easy tool to re-scale your images to the right power of two dimensions.
 
 ## Install
 
@@ -70,3 +70,9 @@ This project was done for the cs50  Final Project assignment.
 ## License
 
 [MIT](https://github.com/jordyhenry/pw2/blob/master/LICENSE)
+
+## TODO
+- Fix PREVIOUS_PW2 enum value to PREVIOUS_PW2 ['src/resizingModes.ts']
+- Fix Ipw2 Interface methods to accept Pw2AllowedInputs as type to file input ['src/pw2.ts']
+- Export Ipw2 Interface to external use ['src/pw2.ts', 'src/index.ts']
+- Fix any English misspells (sorry guys, it's not my mother language 🤷‍♂️)
