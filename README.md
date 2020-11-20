@@ -1,71 +1,61 @@
+# ⚡ PW²
 
-# pw²
+<p align="center">
+  <img src="./demo.png" width="500"/>
+</p>
 
-> An easy tool to re-scale your images to the right power of two dimensions.
+<p align="center">A library that easily allows you to re-scale your images to the right power of two dimensions.</p>
 
-## Install
+## Installation
 
 ```bash
 npm i pw2
 ```
 
-## Usage
-
-### In nodejs applications
-```javascript
+## Backend Usage
+Combine ⚡PW² with ```fs``` and resize your textures with only 8 lines of code.
+```js
+const fs = require('fs')
 const {createPw2, RESIZING_MODES} = require('pw2')
 const  pw2 = createPw2()
-
-// async usage 
-async function main() {
+ 
+async function main(inputPath) {
 	const inputFile = await fs.readFileSync(inputPath)
 	const nearestBuffer = await pw2.resizeAndGetBuffer(inputFile, RESIZING_MODES.NEAREST_PW2)
-	fs.writeFileSync(path.resolve(mainPath, 'nearest.png'), nearestBuffer)
+	fs.writeFileSync('./nearest.png', nearestBuffer)
 }
-main()
-
-// Promise usage
-pw2.resizeAndGetBuffer('/path/image.png', RESIZING_MODES.PREVIOW_PW2)
-.then(resizedFile => {
-	fs.writeFileSync('/path/rescaled-image.png', resizedFile)
-})
 ```
 
-### In web and ReactJs applications
-```javascript
+## FrontEnd Usage
+Hook the ```handleFileUpload``` function to your file input 'change' event, and use ```file-saver``` to download the blob easilly.
+```js
+import {saveAs} from 'file-saver'
 import {createPw2, RESIZING_MODES} from 'pw2'
 const  pw2 = createPw2()
 
-const fileUploadInput = document.getElementById('fileUpload')
-fileUploadInput.addEventListener('change', handleFileUpload, false)
-
-async function handleFileUpload() {
-	const file = fileUploadInput .files[0]
+async function handleFileUpload(evt) {
+	const file = evt.target.files[0]
 	const fileReader = new  FileReader()
 
 	fileReader.onload = async() => {
-		// async usage
-		const  asyncResizedImage = await  pw2.resizeAndGetBase64(fileReader.result, RESIZING_MODES.NEAREST_PW2)
-		
-		// Promise usage
-		pw2.resizeAndGetBase64(fileReader.result, RESIZING_MODES.PREVIOW_PW2)
-		.then(promiseResizedImage => {
-			console.log(promiseResizedImage)
-		})
+		const resizedFile = await pw2.resizeAndGetBuffer(fileReader.result, RESIZING_MODES.NEAREST_PW2)
+		const resizedFileBlob = new Blob([resizedFile])
+		saveAs(resizedFileBlob, 'resized_image.png')
 	}
 
 	fileReader.readAsArrayBuffer(file)
 }
 ```
 
-## Motivation
-Games and real-time applications, in general, tend to prefer images and textures with power-of-two dimensions, they make it easier to generate eventual mipmaps, consume less GPU memory, and increase the overall performance.
+## But Why ?
 
-But it's time-consuming to find the right power-of-two dimensions for that 1200x612 texture and resize it yourself, that's where pw² comes in handy.
+Games and real-time applications, in general, tend to prefer images and textures with power-of-two dimensions, because they make it easier to generate mipmaps, consume less GPU memory, and increase the overall performance for shader operations.
 
-pw² uses [Jimp](https://github.com/oliver-moran/jimp/) to get your texture current dimensions and rescaled it to the right power-of-two dimensions automatically.
+However, finding the right power-of-two values for each dimension of each texture of each model in your application sounds time-consuming, and it is. [⚡PW²](https://www.npmjs.com/package/pw2) born from the necessity to make this a no-brainer, quick and easy process.
 
-This project was done for the cs50  Final Project assignment.
+⚡PW² uses [Jimp](https://github.com/oliver-moran/jimp/) under the hood to get your texture current dimensions and re-scale it to the right power-of-two dimensions.
+
+This library was developed for the cs50 Final Project assignment.
 
 ## License
 
@@ -75,4 +65,4 @@ This project was done for the cs50  Final Project assignment.
 - Fix PREVIOUS_PW2 enum value to PREVIOUS_PW2 on [src/resizingModes.ts](https://github.com/jordyhenry/pw2/blob/master/src/resizingModes.ts#L3)
 - Fix Ipw2 Interface methods to accept Pw2AllowedInputs as type to file input on [src/pw2.ts](https://github.com/jordyhenry/pw2/blob/master/src/pw2.ts#L10-L15)
 - Export Ipw2 Interface to external use on [src/pw2.ts](https://github.com/jordyhenry/pw2/blob/master/src/pw2.ts#L12-L15) and [src/index.ts](https://github.com/jordyhenry/pw2/blob/master/src/index.ts)
-- Fix any English misspells (sorry guys, it's not my mother language 🤷‍♂️)
+- Fix any English misspells (sorry guys, it's not my first language  🤷‍♂️)
